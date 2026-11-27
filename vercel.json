@@ -1,4 +1,6 @@
 {
-  "buildCommand": "",
-  "outputDirectory": "frontend/clg_ki_website"
+  "rewrites": [
+    { "source": "/", "destination": "/frontend/clg_ki_website/index.html" },
+    { "source": "/(.*)", "destination": "/frontend/clg_ki_website/$1" }
+  ]
 }
