@@ -1,0 +1,21 @@
+# Secrets & Environment
+.env
+**/.env
+**/.env.local
+!**/.env.example
+
+# Python / Node / Virtualenvs
+__pycache__/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+**/node_modules/
+
+# Browser profiles & Archives
+bot_chrome_profile/
+meet_bot_profile/
+*.zip
+.DS_Store
+Thumbs.db

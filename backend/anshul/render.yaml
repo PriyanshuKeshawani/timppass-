@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: sistec-rag-chatbot
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: gemini-3.1-flash-lite

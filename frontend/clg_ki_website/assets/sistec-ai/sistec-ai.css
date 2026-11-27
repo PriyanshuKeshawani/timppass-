@@ -1,0 +1,485 @@
+/* SISTec AI Assistant - Modern Floating Pill & Card UI (SISTec Theme) */
+:root {
+  --sistec-purple: #723bcd;
+  --sistec-indigo: #5c71de;
+  --sistec-coral: #fe553c;
+  --sistec-dark: #18181b;
+  --sistec-surface: #f4f5f8;
+}
+
+/* Collapsed Bottom-Center Bar (Input Pill + Circle Launcher) */
+.sai-collapsed-bar {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sai-mini-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid rgba(114, 59, 205, 0.16);
+  border-radius: 999px;
+  padding: 6px 6px 6px 16px;
+  box-shadow: 0 8px 24px rgba(24, 16, 48, 0.14);
+  width: 240px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.sai-mini-pill:focus-within {
+  border-color: var(--sistec-purple);
+  box-shadow: 0 10px 28px rgba(114, 59, 205, 0.22);
+}
+
+.sai-mini-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13.5px;
+  color: #1f1f1f;
+  width: 100%;
+}
+
+.sai-mini-input::placeholder {
+  color: #71717a;
+}
+
+.sai-arrow-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #e4e4e7;
+  color: #52525b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
+}
+
+.sai-arrow-btn.active {
+  background: linear-gradient(135deg, var(--sistec-purple), var(--sistec-indigo));
+  color: #ffffff;
+}
+
+.sai-arrow-btn.active:hover {
+  transform: scale(1.06);
+}
+
+.sai-launcher-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--sistec-purple) 0%, var(--sistec-indigo) 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(114, 59, 205, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 21px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.sai-launcher-circle:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(114, 59, 205, 0.48);
+}
+
+/* Dim Backdrop Behind Open Chat Card */
+.sai-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99994;
+  background: rgba(15, 10, 30, 0.48);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.sai-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Expanded Chat Card */
+.sai-card,
+.sai-card * {
+  box-sizing: border-box;
+}
+
+.sai-card {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  z-index: 99995;
+  width: min(440px, calc(100vw - 24px));
+  height: min(650px, calc(100vh - 32px));
+  background: #ffffff;
+  border-radius: 22px;
+  box-shadow: 0 22px 60px rgba(24, 16, 48, 0.24);
+  border: 1px solid rgba(114, 59, 205, 0.14);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(18px) scale(0.96);
+  transition:
+    opacity 0.24s ease,
+    visibility 0.24s ease,
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sai-card.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.sai-card.expanded {
+  width: min(580px, calc(100vw - 24px));
+  height: min(760px, calc(100vh - 28px));
+}
+
+/* Top Controls + Floating Header Pill */
+.sai-top-bar {
+  position: relative;
+  padding: 12px 14px 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(114, 59, 205, 0.06) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.sai-icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #f4f4f5;
+  color: #3f3f46;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s ease;
+}
+
+.sai-icon-btn:hover {
+  background: #e4e4e7;
+}
+
+.sai-top-right {
+  display: flex;
+  gap: 6px;
+}
+
+.sai-header-pill {
+  margin: 4px auto 8px;
+  background: #ffffff;
+  border: 1px solid rgba(114, 59, 205, 0.12);
+  border-radius: 18px;
+  padding: 8px 16px;
+  box-shadow: 0 6px 20px rgba(24, 16, 48, 0.08);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sai-avatar {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sistec-purple), var(--sistec-indigo));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.sai-online-dot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #ffffff;
+}
+
+.sai-header-text h4 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #18181b;
+  line-height: 1.2;
+}
+
+.sai-header-text span {
+  font-size: 11px;
+  color: #71717a;
+}
+
+/* Messages Area */
+.sai-messages {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 16px 14px;
+  border-top: 1px solid #f1f1f4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+
+.sai-messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sai-messages::-webkit-scrollbar-thumb {
+  background: rgba(114, 59, 205, 0.25);
+  border-radius: 999px;
+}
+
+@keyframes saiFadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sai-bot-row,
+.sai-bubble.user {
+  animation: saiFadeSlide 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.sai-bot-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.sai-mini-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sistec-purple), var(--sistec-indigo));
+  color: #ffffff;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.sai-bubble {
+  max-width: calc(100% - 34px);
+  min-width: 0;
+  padding: 11px 14px;
+  border-radius: 16px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #18181b;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.sai-md-h {
+  font-weight: 700;
+  color: var(--sistec-purple);
+  margin: 6px 0 2px;
+  font-size: 13.5px;
+}
+
+.sai-md-li {
+  padding-left: 6px;
+  margin: 2px 0;
+}
+
+.sai-bubble a {
+  color: var(--sistec-purple);
+  text-decoration: underline;
+}
+
+.sai-sources {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(114, 59, 205, 0.12);
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.sai-bubble.bot {
+  background: var(--sistec-surface);
+  border-top-left-radius: 6px;
+}
+
+.sai-bubble.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--sistec-purple), var(--sistec-indigo));
+  color: #ffffff;
+  border-bottom-right-radius: 6px;
+}
+
+.sai-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.sai-pill-coral {
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--sistec-coral);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.sai-pill-dark {
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--sistec-purple);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.sai-pill-coral:hover,
+.sai-pill-dark:hover {
+  opacity: 0.92;
+}
+
+/* Quick Prompts Drawer */
+.sai-prompts-tray {
+  padding: 6px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-top: 1px solid #f1f1f4;
+  background: #fafafa;
+}
+
+.sai-prompts-tray[hidden] {
+  display: none !important;
+}
+
+.sai-tray-chip {
+  border: 1px solid rgba(114, 59, 205, 0.22);
+  background: #ffffff;
+  color: var(--sistec-purple);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sai-tray-chip:hover {
+  background: rgba(114, 59, 205, 0.08);
+}
+
+/* Bottom Input Bar */
+.sai-input-wrap {
+  padding: 10px 14px 8px;
+  border-top: 1px solid #f1f1f4;
+  background: #ffffff;
+}
+
+.sai-input-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 999px;
+  padding: 5px 6px 5px 8px;
+}
+
+.sai-input-pill:focus-within {
+  border-color: var(--sistec-purple);
+}
+
+.sai-plus-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #f4f4f5;
+  color: #3f3f46;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sai-chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  color: #18181b;
+  background: transparent;
+}
+
+.sai-powered {
+  text-align: center;
+  font-size: 10.5px;
+  color: #a1a1aa;
+  margin-top: 5px;
+}
+
+.sai-powered b {
+  color: var(--sistec-purple);
+}
+
+@media (max-width: 520px) {
+  .sai-mini-pill {
+    width: 185px;
+  }
+  .sai-card {
+    width: calc(100vw - 20px);
+    height: 82vh;
+  }
+}

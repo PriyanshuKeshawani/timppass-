@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unauthorized Access</title>
+    <style>
+        /* Reset margin and padding for the body */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+        }
+
+        /* Ensure no scrolling */
+        body {
+            overflow: hidden;
+        }
+
+        /* Style for the h1 */
+        h1 {
+            font-size: 60px;
+            color: #fff;
+            text-align: center;
+            font-family: Verdana;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unauthorized Access</h1>
+</body>
+</html>

@@ -1,0 +1,22 @@
+.git
+.github
+.gitignore
+.venv
+venv
+ENV
+__pycache__
+*.py[cod]
+*$py.class
+# chroma_db and chroma.sqlite3 are included for instant pre-warmed production RAG
+.env
+.env.*
+node_modules
+frontend/node_modules
+scratch
+*.log
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+*.zip
+*.tar.gz
