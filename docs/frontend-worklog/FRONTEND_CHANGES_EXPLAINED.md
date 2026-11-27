@@ -1,10 +1,10 @@
 # 🔄 STATUS: FRONTEND CHANGES UNDONE (REVERTED TO ORIGINAL)
 > [!NOTE]
-> User request ke anusaar `d:\CODE JAANI CODE\minor\website\index.html` se saare AI chatbot integrations ko **UNDO / REVERT** kar diya gaya hai. Website ab 100% apne original clean cloned state me hai.
+> User request ke anusaar `apps/website/index.html` se saare AI chatbot integrations ko **UNDO / REVERT** kar diya gaya hai. Website ab 100% apne original clean cloned state me hai.
 > 
 > Purana integrated version aur assets yahan safely backed up hain:
-> - Backup HTML: [index.html.ai_integrated_backup](file:///d:/CODE%20JAANI%20CODE/minor/workdone_on_frontend/index.html.ai_integrated_backup)
-> - Backup Assets: [backup_sistec-ai_assets](file:///d:/CODE%20JAANI%20CODE/minor/workdone_on_frontend/backup_sistec-ai_assets)
+> - Backup HTML: [index.html.ai_integrated_backup](index.html.ai_integrated_backup)
+> - Backup Assets: [backup_sistec-ai_assets](backup_sistec-ai_assets/)
 
 ---
 
@@ -51,10 +51,10 @@ Aapne jo screenshot bheja tha, usme 3 badi problems thi:
 
 ## 📁 3. Files List:
 
-1. [sistec-ai.css](file:///d:/CODE%20JAANI%20CODE/minor/website/assets/sistec-ai/sistec-ai.css): Authentic SISTec Purple & Coral Red theme styles + 2x2 grid prompts.
-2. [sistec-ai.js](file:///d:/CODE%20JAANI%20CODE/minor/website/assets/sistec-ai/sistec-ai.js): Clean Multi-RAG Chatbot logic (Gemini + ChromaDB).
-3. [index.html](file:///d:/CODE%20JAANI%20CODE/minor/website/index.html): Main webpage with native `.afn-btn` integration on left controls and header.
-4. [run_full_system.bat](file:///d:/CODE%20JAANI%20CODE/minor/workdone_on_frontend/run_full_system.bat): Double-click one-shot launcher.
+1. [sistec-ai.css](../../apps/website/assets/sistec-ai/sistec-ai.css): Authentic SISTec Purple & Coral Red theme styles + 2x2 grid prompts.
+2. [sistec-ai.js](../../apps/website/assets/sistec-ai/sistec-ai.js): Clean Multi-RAG Chatbot logic (Gemini + ChromaDB).
+3. [index.html](../../apps/website/index.html): Main webpage with native `.afn-btn` integration on left controls and header.
+4. [run_full_system.bat](run_full_system.bat): Double-click one-shot launcher.
 
 ---
 

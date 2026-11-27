@@ -10,5 +10,5 @@ No Python backend, no `.env` file, no localhost server needed! Everything runs d
 ## How to Load in Chrome
 1. Open `chrome://extensions` and turn on **Developer mode**.
 2. Click **Load unpacked** and select:
-   `D:\CODE JAANI CODE\minor\new backend\Email as extension`
+   `apps/email-extension`
 3. Open or refresh `https://mail.google.com`.

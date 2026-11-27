@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/frontend/clg_ki_website/index.html" },
-    { "source": "/(.*)", "destination": "/frontend/clg_ki_website/$1" }
+    { "source": "/", "destination": "/apps/website/index.html" },
+    { "source": "/(.*)", "destination": "/apps/website/$1" }
   ]
 }

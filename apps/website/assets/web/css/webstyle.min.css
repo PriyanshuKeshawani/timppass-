@@ -798,7 +798,7 @@ a:active {
 }
 
 .footer {
-    background: url("../images/footer/footer-bg-2.jpg");
+    background: url("../images/footer/footer-bg-2.webp");
     background-repeat: no-repeat;
     background-size: cover;
     padding: 60px 0 70px;
@@ -1754,23 +1754,23 @@ a:active {
 }
 
 .page__section.bg__1 {
-    background: url("../images/backgrounds/bg__1.jpg")
+    background: url("../images/backgrounds/bg__1.webp")
 }
 
 .page__section.bg__2 {
-    background: url("../images/backgrounds/bg__2.jpg")
+    background: url("../images/backgrounds/bg__2.webp")
 }
 
 .page__section.bg__3 {
-    background: url("../images/backgrounds/bg__3.jpg")
+    background: url("../images/backgrounds/bg__3.webp")
 }
 
 .page__section.bg__4 {
-    background: url("../images/backgrounds/bg__4.jpg")
+    background: url("../images/backgrounds/bg__4.webp")
 }
 
 .page__section.bg__5 {
-    background: url("../images/backgrounds/bg__5.jpg")
+    background: url("../images/backgrounds/bg__5.webp")
 }
 
 .split-slideshow {
@@ -1916,7 +1916,7 @@ a:active {
 .about-bg-image {
     border-radius: 8px;
     box-shadow: rgba(6, 24, 44, .4) 0px 0px 0px 2px, rgba(6, 24, 44, .65) 0px 4px 6px -1px, rgba(255, 255, 255, .08) 0px 1px 0px inset;
-    background: url("../images/home/about/sistec-gn-bg.jpg");
+    background: url("../images/home/about/sistec-gn-bg.webp");
     animation: slide-giant 20s alternate infinite;
     background-repeat: no-repeat;
     background-position: 0 0;
@@ -2046,7 +2046,7 @@ a:active {
 
 #courses .courses-card .course-video .shape-div .video-div {
     padding: 20px 0 20px 90px;
-    background: url(../images/home/courses/courses-engg-bg.png);
+    background: url(../images/home/courses/courses-engg-bg.webp);
     background-repeat: no-repeat !important;
     background-size: 100% 100% !important;
     width: 475px;
@@ -4183,27 +4183,27 @@ a:active {
 }
 
 #placement-gallery .las-flex .one {
-    background: url(../images/placements/PE1.jpg)
+    background: url(../images/placements/PE1.webp)
 }
 
 #placement-gallery .las-flex .two {
-    background: url(../images/placements/PE2.jpg)
+    background: url(../images/placements/PE2.webp)
 }
 
 #placement-gallery .las-flex .three {
-    background: url(../images/placements/PE3.jpg)
+    background: url(../images/placements/PE3.webp)
 }
 
 #placement-gallery .las-flex .four {
-    background: url(../images/placements/PE4.jpg)
+    background: url(../images/placements/PE4.webp)
 }
 
 #placement-gallery .las-flex .five {
-    background: url(../images/placements/PE5.jpg)
+    background: url(../images/placements/PE5.webp)
 }
 
 #placement-gallery .las-flex .six {
-    background: url(../images/placements/PE6.jpg)
+    background: url(../images/placements/PE6.webp)
 }
 
 .web-gallery {
