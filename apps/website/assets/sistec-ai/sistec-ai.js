@@ -265,9 +265,11 @@
 
     document.getElementById("saiMailSendBtn").addEventListener("click", () => {
       const { to, subject, body } = getMailPayload();
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
-      const win = window.open(gmailUrl, "_blank", "noopener,noreferrer");
-      if (!win) window.location.href = gmailUrl;
+      const a = document.createElement("a");
+      a.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.click();
     });
 
     document.getElementById("saiMailAppBtn").addEventListener("click", () => {
