@@ -19,3 +19,4 @@ meet_bot_profile/
 *.zip
 .DS_Store
 Thumbs.db
+.agents/
