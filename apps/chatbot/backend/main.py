@@ -46,13 +46,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class ChatMessage(BaseModel):
-    role: str
-    content: str
-
 class ChatRequest(BaseModel):
     query: str
-    chat_history: Optional[List[ChatMessage]] = None
+    chat_history: Optional[List[Dict[str, Any]]] = None
     forced_domain: Optional[str] = None
 
 @app.get("/api/health")
@@ -92,7 +88,14 @@ def chat_endpoint(req: ChatRequest):
     if not query:
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
 
-    history_dicts = [{"role": m.role, "content": m.content} for m in req.chat_history] if req.chat_history else []
+    history_dicts = []
+    if req.chat_history:
+        for m in req.chat_history:
+            if isinstance(m, dict):
+                history_dicts.append({
+                    "role": str(m.get("role", "user")),
+                    "content": str(m.get("content", ""))
+                })
 
     # Execute LangGraph Workflow
     final_state = langgraph_app.invoke({
@@ -183,14 +186,134 @@ def reindex_all():
     return {"status": "success", "summary": summary}
 
 # =====================================================================
-# Serve Built Frontend (All-in-One Single Container Deployment)
+# Voice Call Bot Endpoints (Neerja SISTec)
+# =====================================================================
+from backend.call_bot.voice_generator import (
+    generate_voice_response,
+    get_voice_greeting,
+    get_voice_fallback,
+    check_fast_intent
+)
+from backend.call_bot.router import route_query as route_voice_query
+from backend.call_bot.retriever import multi_domain_retrieve as voice_retrieve
+from backend.call_bot.tts_engine import text_to_speech_base64
+from backend.call_bot.config import DEFAULT_VOICE
+
+class VoiceChatRequest(BaseModel):
+    query: str
+    voice: Optional[str] = None
+    use_edge_tts: Optional[bool] = False
+
+class VoiceChatResponse(BaseModel):
+    text: str
+    audio_base64: Optional[str] = None
+    domain: str
+    confidence: float
+    citations: List[Dict[str, Any]]
+
+@app.get("/api/voice/health")
+def voice_health_check():
+    return {
+        "status": "online",
+        "service": "Neerja SISTec AI Voice Call Bot",
+        "gemini_configured": bool(GEMINI_API_KEY)
+    }
+
+@app.get("/api/voice/greeting")
+async def get_call_greeting(use_edge_tts: bool = False):
+    greeting_text = get_voice_greeting()
+    audio_b64 = None
+    if use_edge_tts:
+        audio_b64 = await text_to_speech_base64(greeting_text, DEFAULT_VOICE)
+    return {
+        "text": greeting_text,
+        "audio_base64": audio_b64,
+        "domain": "greeting"
+    }
+
+@app.post("/api/voice/chat")
+async def voice_chat_endpoint(req: VoiceChatRequest):
+    query = req.query.strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="Query cannot be empty.")
+
+    # 1. Instant Fast-Intent Cache (< 0.2ms latency!)
+    fast_ans = check_fast_intent(query)
+    if fast_ans:
+        audio_b64 = await text_to_speech_base64(fast_ans, DEFAULT_VOICE) if req.use_edge_tts else None
+        return VoiceChatResponse(
+            text=fast_ans,
+            audio_base64=audio_b64,
+            domain="fast_intent",
+            confidence=0.99,
+            citations=[]
+        )
+
+    # 2. Fast Intent Routing (< 1ms)
+    routing = route_voice_query(query)
+
+    # 3. Greeting
+    if routing.get("is_greeting"):
+        greeting_text = get_voice_greeting()
+        audio_b64 = await text_to_speech_base64(greeting_text, DEFAULT_VOICE) if req.use_edge_tts else None
+        return VoiceChatResponse(
+            text=greeting_text,
+            audio_base64=audio_b64,
+            domain="greeting",
+            confidence=0.95,
+            citations=[]
+        )
+
+    # 4. Out of Scope
+    if not routing.get("is_college_related"):
+        fallback_text = get_voice_fallback("out_of_scope")
+        audio_b64 = await text_to_speech_base64(fallback_text, DEFAULT_VOICE) if req.use_edge_tts else None
+        return VoiceChatResponse(
+            text=fallback_text,
+            audio_base64=audio_b64,
+            domain="out_of_scope",
+            confidence=0.2,
+            citations=[]
+        )
+
+    # 5. Fast Targeted Multi-Domain Context Retrieval (~200ms)
+    target_domains = routing.get("target_domains", ["placements"])
+    context, citations = voice_retrieve(query, target_domains, top_per_domain=2)
+
+    # 6. Fast Gemini Voice Synthesis (~600ms)
+    if context.strip():
+        answer_text = generate_voice_response(query, context)
+    else:
+        answer_text = get_voice_fallback("not_found")
+
+    # 7. Optional Edge-TTS Audio
+    audio_b64 = None
+    if req.use_edge_tts:
+        audio_b64 = await text_to_speech_base64(answer_text, req.voice or DEFAULT_VOICE)
+
+    return VoiceChatResponse(
+        text=answer_text,
+        audio_base64=audio_b64,
+        domain=routing.get("primary_domain", "general"),
+        confidence=routing.get("confidence", 0.9),
+        citations=citations
+    )
+
+# =====================================================================
+# Serve Built Frontend / Website
 # =====================================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
+WEBSITE_DIR = BASE_DIR / "apps" / "website"
+if not WEBSITE_DIR.exists() and (BASE_DIR.parent / "apps" / "website").exists():
+    WEBSITE_DIR = BASE_DIR.parent / "apps" / "website"
 
 if FRONTEND_DIST.exists():
-    # Mount frontend static assets at root path
+    # Mount frontend dist if exists
     app.mount("/", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="frontend")
+elif WEBSITE_DIR.exists():
+    # Mount college website at root path
+    app.mount("/", StaticFiles(directory=str(WEBSITE_DIR), html=True), name="website")
 
 @app.exception_handler(404)
 async def custom_404_handler(request, exc):
@@ -198,9 +321,14 @@ async def custom_404_handler(request, exc):
     if request.url.path.startswith("/api"):
         return JSONResponse(status_code=404, content={"detail": f"API endpoint '{request.url.path}' not found."})
     
-    index_file = FRONTEND_DIST / "index.html"
-    if index_file.exists():
-        return FileResponse(index_file)
+    if FRONTEND_DIST.exists():
+        index_file = FRONTEND_DIST / "index.html"
+        if index_file.exists():
+            return FileResponse(index_file)
+    elif WEBSITE_DIR.exists():
+        index_file = WEBSITE_DIR / "index.html"
+        if index_file.exists():
+            return FileResponse(index_file)
     
     return JSONResponse(status_code=404, content={"detail": "Page not found."})
 

@@ -487,7 +487,57 @@
   color: #ffffff;
 }
 
-/* Mail Draft Overlay */
+/* Standalone Left-Side Formal Email Assistant Card */
+.sai-left-mail-card {
+  position: fixed;
+  left: 105px;
+  bottom: 24px;
+  width: min(440px, calc(100vw - 125px));
+  max-height: min(88vh, 660px);
+  max-height: min(88dvh, 660px);
+  background: #ffffff;
+  border: 1px solid rgba(114, 59, 205, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(18, 12, 38, 0.25), 0 4px 16px rgba(114, 59, 205, 0.12);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px;
+  gap: 10px;
+  z-index: 999990;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transform-origin: 0px calc(100% - 30px);
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.24s;
+}
+
+.sai-left-mail-card.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.sai-left-mail-card::-webkit-scrollbar {
+  width: 5px;
+}
+.sai-left-mail-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sai-left-mail-card::-webkit-scrollbar-thumb {
+  background: rgba(114, 59, 205, 0.25);
+  border-radius: 999px;
+}
+
+#fixed-controls {
+  z-index: 999985 !important;
+}
+
+/* Mail Draft Overlay & Inner Elements */
 .sai-mail-modal {
   position: absolute;
   inset: 0;
@@ -498,6 +548,7 @@
   padding: 14px;
   gap: 10px;
   animation: saiFadeSlide 0.2s ease both;
+  overflow-y: auto;
 }
 
 .sai-mail-modal[hidden] {
@@ -523,6 +574,182 @@
   font-size: 11px;
   color: var(--sistec-purple);
   font-weight: 500;
+  display: block;
+  margin-top: 2px;
+}
+
+/* AI Prompt Input Section */
+.sai-mail-prompt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f8f7fd;
+  border: 1px solid rgba(114, 59, 205, 0.18);
+  border-radius: 12px;
+  padding: 9px 11px;
+  box-shadow: 0 2px 8px rgba(114, 59, 205, 0.05);
+}
+
+.sai-mail-prompt-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--sistec-purple);
+}
+
+.sai-mail-prompt-bar {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.sai-mail-prompt-input {
+  flex: 1;
+  resize: none;
+  border: 1px solid #e0ddf3;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: #18181b;
+  background: #ffffff;
+  outline: none;
+  min-height: 44px;
+  line-height: 1.4;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.sai-mail-prompt-input:focus {
+  border-color: var(--sistec-purple);
+  box-shadow: 0 0 0 2px rgba(114, 59, 205, 0.15);
+}
+
+.sai-mail-gen-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 13px;
+  background: linear-gradient(135deg, var(--sistec-purple), var(--sistec-indigo));
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 44px;
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(114, 59, 205, 0.22);
+  flex-shrink: 0;
+}
+
+.sai-mail-gen-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(114, 59, 205, 0.32);
+}
+
+.sai-mail-gen-btn:active {
+  transform: translateY(0);
+}
+
+.sai-mail-gen-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Reference Confirmation Card */
+.sai-mail-confirm-card {
+  background: #ffffff;
+  border: 1.5px solid var(--sistec-purple);
+  border-radius: 12px;
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  box-shadow: 0 8px 24px rgba(114, 59, 205, 0.16);
+  animation: saiFadeSlide 0.2s ease both;
+}
+
+.sai-mail-confirm-card[hidden] {
+  display: none;
+}
+
+.sai-mail-confirm-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.sai-mail-confirm-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(114, 59, 205, 0.12);
+  color: var(--sistec-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.sai-mail-confirm-info h6 {
+  margin: 0 0 3px 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #18181b;
+}
+
+.sai-mail-confirm-info p {
+  margin: 0;
+  font-size: 11.5px;
+  color: #52525b;
+  line-height: 1.4;
+}
+
+.sai-mail-confirm-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.sai-mail-ref-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sai-mail-ref-btn.primary {
+  background: var(--sistec-purple);
+  color: #ffffff;
+  border: none;
+}
+
+.sai-mail-ref-btn.primary:hover {
+  background: #5f2eb8;
+}
+
+.sai-mail-ref-btn.secondary {
+  background: #f4f4f5;
+  color: #3f3f46;
+  border: 1px solid #d4d4d8;
+}
+
+.sai-mail-ref-btn.secondary:hover {
+  background: #e4e4e7;
 }
 
 .sai-mail-field {
@@ -653,5 +880,467 @@
   }
   .sai-input-wrap {
     padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+  }
+  .sai-left-mail-card {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: calc(100vw - 24px) !important;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    top: auto !important;
+    transform: scale(0.92);
+    transform-origin: center bottom !important;
+    max-height: min(82vh, 580px);
+    padding: 14px 16px;
+  }
+  .sai-left-mail-card.open {
+    transform: scale(1);
+  }
+}
+
+/* Fixed Left Sidebar Mail Button Styles */
+#fixed-controls #fixedMailBtnDiv:hover p {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(14px, -50%);
+}
+
+#fixed-controls #fixedMailBtn svg {
+  transition: transform 0.25s ease;
+}
+
+#fixed-controls #fixedMailBtn:hover svg {
+  transform: scale(1.12);
+}
+
+#mobile-fixed-footer .footer-bar a#mobileMailBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #18181b;
+  text-decoration: none;
+}
+
+#mobile-fixed-footer .footer-bar a#mobileMailBtn p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sistec-purple);
+}
+
+/* =====================================================================
+   Standalone Left-Side iPhone 14 AI Voice Call Card (Neerja SISTec)
+   ===================================================================== */
+.sai-left-call-card {
+  position: fixed;
+  left: 105px;
+  bottom: 24px;
+  width: 340px;
+  max-width: calc(100vw - 125px);
+  height: 560px;
+  max-height: min(82vh, 580px);
+  max-height: min(82dvh, 580px);
+  background: linear-gradient(180deg, #184b7a 0%, #123759 40%, #0a1f33 100%);
+  border: 3.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 44px;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6), 0 0 40px rgba(24, 75, 122, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 16px 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 999990;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  color: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transform-origin: 0px calc(100% - 50px);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+}
+
+.sai-left-call-card.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* iPhone Dynamic Island / Top Speaker Mesh */
+.sai-call-dynamic-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 24px;
+  background: #000000;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.sai-call-camera-dot {
+  width: 10px;
+  height: 10px;
+  background: #111a24;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sai-call-speaker-mesh {
+  width: 36px;
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 3px;
+}
+
+/* Status Bar & Close */
+.sai-call-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0 4px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 3;
+}
+
+.sai-call-close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s;
+}
+
+.sai-call-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.08);
+}
+
+/* Caller Section */
+.sai-caller-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 8px;
+  position: relative;
+  z-index: 3;
+}
+
+.sai-call-duration {
+  font-size: 1.05rem;
+  color: #a3c4e4;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.sai-caller-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+  color: #ffffff;
+}
+
+.sai-caller-subtitle {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Turn State Pill */
+.sai-turn-pill {
+  margin-top: 8px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+}
+
+.sai-turn-pill.listening-state {
+  background: rgba(52, 199, 89, 0.22);
+  border-color: #34c759;
+  color: #86efac;
+}
+
+.sai-turn-pill.speaking-state {
+  background: rgba(235, 59, 48, 0.22);
+  border-color: #eb3b30;
+  color: #fca5a5;
+}
+
+/* Dynamic Waveform */
+.sai-waveform-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 36px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.sai-wave-line {
+  width: 3.5px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: height 0.15s ease, background 0.2s ease;
+}
+
+.sai-waveform-box.speaking .sai-wave-line {
+  background: #ffffff;
+  animation: iosWave 0.75s ease-in-out infinite alternate;
+}
+
+.sai-waveform-box.listening .sai-wave-line {
+  background: #34c759;
+  animation: iosWave 0.45s ease-in-out infinite alternate;
+}
+
+.sai-wave-line:nth-child(1) { animation-delay: 0.05s; }
+.sai-wave-line:nth-child(2) { animation-delay: 0.25s; }
+.sai-wave-line:nth-child(3) { animation-delay: 0.1s; }
+.sai-wave-line:nth-child(4) { animation-delay: 0.35s; }
+.sai-wave-line:nth-child(5) { animation-delay: 0.2s; }
+.sai-wave-line:nth-child(6) { animation-delay: 0.4s; }
+.sai-wave-line:nth-child(7) { animation-delay: 0.15s; }
+
+/* Subtitles Card */
+.sai-call-subtitles {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 18px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #f8fafc;
+  text-align: center;
+  min-height: 68px;
+  max-height: 95px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-sizing: border-box;
+}
+
+.sai-sub-speaker {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #93c5fd;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+/* Counselor Connect Bar */
+.sai-dialer-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+  z-index: 3;
+}
+
+.sai-btn-dialer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  background: rgba(52, 199, 89, 0.2);
+  border: 1px solid rgba(52, 199, 89, 0.45);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(52, 199, 89, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sai-btn-dialer:hover {
+  background: rgba(52, 199, 89, 0.32);
+  border-color: #34c759;
+  transform: translateY(-1px);
+}
+
+.sai-btn-dialer svg {
+  width: 15px;
+  height: 15px;
+  color: #34c759;
+}
+
+/* 3 Essential Buttons Row */
+.sai-call-dock {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 4px 0 2px;
+  z-index: 3;
+}
+
+.sai-btn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sai-btn-circle {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sai-btn-circle svg {
+  width: 28px;
+  height: 28px;
+}
+
+.sai-btn-circle:active {
+  transform: scale(0.92);
+  opacity: 0.8;
+}
+
+.sai-btn-circle.active-white {
+  background: #ffffff;
+  color: #000000;
+}
+
+.sai-btn-circle.active-white svg {
+  color: #000000;
+}
+
+.sai-btn-call-cut {
+  width: 70px;
+  height: 70px;
+  background: #eb3b30;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(235, 59, 48, 0.45);
+}
+
+.sai-btn-call-cut.disconnected {
+  background: #34c759;
+  box-shadow: 0 8px 24px rgba(52, 199, 89, 0.45);
+}
+
+.sai-btn-call-cut svg {
+  transform: rotate(135deg);
+  transition: transform 0.3s;
+}
+
+.sai-btn-call-cut.disconnected svg {
+  transform: rotate(0deg);
+}
+
+.sai-btn-label {
+  font-size: 0.75rem;
+  color: #ffffff;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+/* Fixed Controls Tooltip for Call Button */
+#fixed-controls #fixedCallBtnDiv:hover p {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(14px, -50%);
+}
+
+#fixed-controls #fixedCallBtn img {
+  transition: transform 0.25s ease;
+}
+
+#fixed-controls #fixedCallBtn:hover img {
+  transform: scale(1.12);
+}
+
+#mobile-fixed-footer .footer-bar a#mobileCallBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #18181b;
+  text-decoration: none;
+}
+
+#mobile-fixed-footer .footer-bar a#mobileCallBtn img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 2px;
+}
+
+#mobile-fixed-footer .footer-bar a#mobileCallBtn p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sistec-purple);
+}
+
+@media (max-width: 768px) {
+  .sai-left-call-card {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: 380px !important;
+    margin: 0 auto;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    top: auto !important;
+    height: min(80vh, 600px);
+    transform: scale(0.92);
+    transform-origin: center bottom !important;
+    border-radius: 36px;
+    padding: 16px;
+  }
+  .sai-left-call-card.open {
+    transform: scale(1);
   }
 }

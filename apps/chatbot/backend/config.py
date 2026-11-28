@@ -3,12 +3,22 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Load environment variables
-BASE_DIR = Path(__file__).resolve().parent.parent
+CURRENT_DIR = Path(__file__).resolve().parent
+PARENT_DIR = CURRENT_DIR.parent
+
+BASE_DIR = PARENT_DIR
+if not (BASE_DIR / "chroma_db").exists() and (CURRENT_DIR / "chroma_db").exists():
+    BASE_DIR = CURRENT_DIR
+elif not (BASE_DIR / "chroma_db").exists() and (PARENT_DIR / "apps" / "chatbot" / "chroma_db").exists():
+    BASE_DIR = PARENT_DIR / "apps" / "chatbot"
+
 load_dotenv(BASE_DIR / ".env")
+load_dotenv(CURRENT_DIR / ".env")
+load_dotenv(PARENT_DIR / ".env")
 
 # Gemini & Model Settings
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-LLM_MODEL = os.getenv("LLM_MODEL", "gemini-3.1-flash-lite")
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-flash-lite-latest")
 
 _gemini_client = None
 def get_gemini_client():
@@ -19,8 +29,19 @@ def get_gemini_client():
     return _gemini_client
 
 # Paths
-DATA_DIR = BASE_DIR / "data"
-CHROMA_PERSIST_DIR = BASE_DIR / "chroma_db"
+if (BASE_DIR / "data").exists():
+    DATA_DIR = BASE_DIR / "data"
+elif (CURRENT_DIR / "data").exists():
+    DATA_DIR = CURRENT_DIR / "data"
+else:
+    DATA_DIR = PARENT_DIR / "data"
+
+if (BASE_DIR / "chroma_db").exists():
+    CHROMA_PERSIST_DIR = BASE_DIR / "chroma_db"
+elif (CURRENT_DIR / "chroma_db").exists():
+    CHROMA_PERSIST_DIR = CURRENT_DIR / "chroma_db"
+else:
+    CHROMA_PERSIST_DIR = PARENT_DIR / "chroma_db"
 
 # Multi-RAG Domains Definition
 DOMAINS = {
